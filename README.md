@@ -1,8 +1,9 @@
-Step 1:
-   IF MODULES termcolor AND colorama ARE INSTALLED:
-       go to step 2
-   OTHERWISE:
-       run installModules.bat
+Target Operating System:
+- Windows 7
 
-Step 2:
-   TO RUN THE GAME: run runGame.bat
+Additional Libraries Needed:
+- colorama
+- termcolor
+They can be installed by running "installModules.bat" if pip is installed.
+
+The game can be started by running "runGame.bat"
