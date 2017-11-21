@@ -1,9 +1,11 @@
-Target Operating System:
+Tested Operating Systems:
 - Windows 7
+- Ubuntu Linux
 
 Additional Libraries Needed:
 - colorama
 - termcolor
+- pygame
 
 They can be installed by running "installModules.bat" if pip is installed.
 

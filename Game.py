@@ -6,16 +6,22 @@
 import string
 import time
 import os
-import msvcrt
 import colorama
 import termcolor
 import random
 import collections
-
+import pygame
+import platform
 
 #os.system("color 08")
 scrnWidth = 100
 os.system("mode con: cols=" + str(scrnWidth) +" lines=40")
+
+if platform.system() == "Windows":
+    clear = "CLS"
+elif platform.system() == "Linux":
+    clear = "clear"
+
 
 #For My Reference
 def instructions():
@@ -71,7 +77,7 @@ def printIntroScreen():
     introFrame = []
    
     for processframe in introFrameLines:
-        os.system("CLS")
+        os.system(clear)
         print("\n"*2)
         for line in processframe:
             print(printColour(introScreen[line]))
@@ -227,34 +233,34 @@ def mainMenu():
     keyLoc = 1  
         
     while True:
-        os.system("CLS")
+        os.system(clear)
 
         rePrintIntroScreen()
         printMenu(keyLoc)
-        
 
-        key = ord(msvcrt.getch())
-        #time.sleep(0.01)
-        #print(key)
-        if key == 72:
-            keyLoc -= 1
-            if keyLoc == 0:
-                keyLoc = 3
-        elif key == 80:
-            keyLoc += 1
-            if keyLoc == 4:
-                keyLoc = 1
-        elif key == 13:
-            #enterMenu(keyLoc)
-            if keyLoc == 1:
-                disInstruct()
-            elif keyLoc == 2:
-                gameMenu()
+        events = pygame.event.get()
+        for event in events:
+            #time.sleep(0.01)
+            #print(key)
+            if event.key == 72:
+                keyLoc -= 1
+                if keyLoc == 0:
+                    keyLoc = 3
+            elif event.key == 80:
+                keyLoc += 1
+                if keyLoc == 4:
+                    keyLoc = 1
+            elif event.key == 13:
+                #enterMenu(keyLoc)
+                if keyLoc == 1:
+                    disInstruct()
+                elif keyLoc == 2:
+                    gameMenu()
+                else:
+                    print(printColour("Exiting Game...".center(scrnWidth, " ")))
+                    return
             else:
-                print(printColour("Exiting Game...".center(scrnWidth, " ")))
-                return
-        else:
-            pass                   
+                pass                   
 
 #Print Menu
 def printMenu(keyLoc):
@@ -300,7 +306,7 @@ def printMenu(keyLoc):
     
 #Display Instructions      
 def disInstruct():
-    os.system("CLS")
+    os.system(clear)
     print()
     print()
     print()
@@ -331,28 +337,27 @@ def gameMenu():
     keyLoc = 1  
         
     while True:
-        os.system("CLS")
+        os.system(clear)
 
         rePrintIntroScreen()
         printGameMenu(keyLoc)
-        
-
-        key = ord(msvcrt.getch())
-        #time.sleep(0.01)
-        #print(key)
-        if key == 72:
-            keyLoc -= 1
-            if keyLoc == 0:
-                keyLoc = 3
-        elif key == 80:
-            keyLoc += 1
-            if keyLoc == 5:
-                keyLoc = 1
-        elif key == 13:
-            enterGameMenu(keyLoc)
-            return
-        else:
-            pass         
+        events = pygame.event.get()
+        for event in events:
+            #time.sleep(0.01)
+            #print(key)
+            if event.key == 72:
+                keyLoc -= 1
+                if keyLoc == 0:
+                    keyLoc = 3
+            elif event.key == 80:
+                keyLoc += 1
+                if keyLoc == 5:
+                    keyLoc = 1
+            elif event.key == 13:
+                enterGameMenu(keyLoc)
+                return
+            else:
+                pass         
 
 #Print New Game Menu
 def printGameMenu(keyLoc):
@@ -411,7 +416,7 @@ def startGame(dif):
     else:
         difMode = "HARD"
 
-    os.system("CLS")
+    os.system(clear)
     print("\n"*5)
     print(printColour(("Loading new game in " + difMode + " mode...").center(scrnWidth," ")))
     
@@ -436,7 +441,7 @@ def startGame(dif):
 def startSession(matchPair):
     global attemptList
     
-    os.system("CLS")
+    os.system(clear)
     startWord = matchPair[0]
     endWord = matchPair[1]
     path = matchPair[2]
@@ -454,7 +459,7 @@ def startSession(matchPair):
 def gameCursor(wordsTup, phase, curLoc=0, moves=0, error=False, attmpWord=""):
     alphaLoc = 0
     
-    os.system("CLS")    
+    os.system(clear)    
     displaySession(wordsTup, curLoc, phase, alphaLoc, error, attmpWord)
     
     wordLen = len(wordsTup[0])
@@ -494,7 +499,7 @@ def gameCursor(wordsTup, phase, curLoc=0, moves=0, error=False, attmpWord=""):
         elif key == 104:
             displaySession(wordsTup, curLoc, phase, alphaLoc, error, attmpWord, True)
             time.sleep(1)
-            #os.system("CLS")
+            #os.system(clear)
             #displaySession(wordsTup, curLoc, phase, alphaLoc, error, attmpWord)
         
         elif key == 109:
@@ -534,7 +539,7 @@ def gameEnterButton(wordsTup, curLoc, alphaLoc, phase, moves):
             attempts.append(newWord)
             wordsTup = (wordsTup[0], attempts, wordsTup[2], wordsTup[3])
             if newWord.upper() == wordsTup[2].upper():
-                os.system("CLS")
+                os.system(clear)
                 displaySession(wordsTup, 0, 1)
                 time.sleep(1)
                 finishSession(moves, wordsTup)
@@ -549,7 +554,7 @@ def gameEnterButton(wordsTup, curLoc, alphaLoc, phase, moves):
 def finishSession(moves, wordsTup):
     global attemptList
 
-    os.system("CLS")
+    os.system(clear)
     print("\n"*4)
     printBoxed(["Congratulation! You've finished!"])
     print()
@@ -566,7 +571,7 @@ def finishSession(moves, wordsTup):
 #Display Playing Session 
 def displaySession(wordsTup, curLoc, phase, alphaLoc=0, error=False, attmpWord="", hint=False):
     
-    os.system("CLS") 
+    os.system(clear) 
     print(printColour(("\n"*4)))
     printBoxed([("Game In Progress")])
     print()
@@ -626,7 +631,7 @@ def preGameMenu():
     print("\n"*4)
     keyLoc = 0         
     while True:
-        os.system("CLS")
+        os.system(clear)
         printPreGameMenu(keyLoc)
        
         key = ord(msvcrt.getch())
@@ -685,7 +690,7 @@ dif = 0
 checkWordList = []
 attemptList = []
 
-os.system("CLS")
+os.system(clear)
 
 #preGameMenu()
 
